@@ -1,0 +1,3 @@
+2025-02-09 16:11:28,547 - INFO - ************ run start ************
+2025-02-09 16:11:29,060 - INFO - Dataset: COMPAS
+2025-02-09 16:11:29,593 - INFO - R=10 d=20 M=4 q=2003 d_min_range=2 scheme=diff len_X_accepted=717 len_X_rejected=560

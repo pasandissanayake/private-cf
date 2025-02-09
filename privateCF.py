@@ -460,8 +460,7 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
 
 
 
-def main(R, M, scheme, d_min_range):
-    logger = Logger('./log.txt')
+def main(R, M, scheme, d_min_range, logger):
     logger.log_info('************ run start ************')
 
     dataset_name = 'COMPAS'
@@ -489,13 +488,15 @@ def main(R, M, scheme, d_min_range):
 
 # Example usage
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Optional app description')
-    parser.add_argument('R', type=int,  help='A required integer positional argument')
-    parser.add_argument('M', type=int,  help='A required integer positional argument')
-    parser.add_argument('scheme', type=str,  help='A required integer positional argument')
-    parser.add_argument('d_min_range', type=int,  help='A required integer positional argument')
+    parser = argparse.ArgumentParser(description='private counterfactual retrieval - leakage computation')
+    parser.add_argument('R', type=int,  help='max element of alphabet i.e., alphabet=[0:R]')
+    parser.add_argument('M', type=int,  help='the database size')
+    parser.add_argument('scheme', type=str,  help='vanilla for vanilla, diff for difference, mask for masking')
+    parser.add_argument('d_min_range', type=int,  help='for masking scheme, d_min will be from the range [1:d_min_range-1]')
+    parser.add_argument('log_file', type=str, help='file to log')
 
     args = parser.parse_args()
-    main(args.R, args.M, args.scheme, args.d_min_range)
+    logger = Logger(args.log_file)
+    main(args.R, args.M, args.scheme, args.d_min_range, logger)
 
 
