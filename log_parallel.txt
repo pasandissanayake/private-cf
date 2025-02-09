@@ -1,0 +1,33 @@
+2025-02-09 12:44:31,013 - INFO - ************ run start ************
+2025-02-09 12:44:31,494 - INFO - Dataset: COMPAS
+2025-02-09 12:59:35,665 - INFO - ************ run start ************
+2025-02-09 12:59:36,295 - INFO - Dataset: COMPAS
+2025-02-09 12:59:36,811 - INFO - R=2 d=20 M=2 q=83 d_min_range=3 scheme=mask len_X_accepted=95 len_X_rejected=95
+2025-02-09 13:07:47,301 - INFO - ************ run start ************
+2025-02-09 13:07:48,010 - INFO - Dataset: COMPAS
+2025-02-09 13:07:48,512 - INFO - R=2 d=20 M=2 q=83 d_min_range=3 scheme=mask len_X_accepted=95 len_X_rejected=95
+2025-02-09 13:09:18,796 - INFO - ************ run start ************
+2025-02-09 13:09:20,190 - INFO - Dataset: COMPAS
+2025-02-09 13:09:20,704 - INFO - R=2 d=20 M=2 q=83 d_min_range=3 scheme=mask len_X_accepted=95 len_X_rejected=95
+2025-02-09 13:09:26,340 - INFO - d_min=1, leakage=2.058723652041196
+2025-02-09 13:09:37,610 - INFO - d_min=2, leakage=2.0587236520412056
+2025-02-09 13:09:37,615 - INFO - leakages: [2.058723652041196, 2.0587236520412056]
+2025-02-09 13:09:37,615 - INFO - ************ run end ************
+2025-02-09 13:11:43,341 - INFO - ************ run start ************
+2025-02-09 13:11:43,833 - INFO - Dataset: COMPAS
+2025-02-09 13:11:44,360 - INFO - R=2 d=20 M=2 q=83 d_min_range=3 scheme=mask len_X_accepted=95 len_X_rejected=95
+2025-02-09 13:11:52,258 - INFO - d_min=1, leakage=2.058723652041196
+2025-02-09 13:12:03,504 - INFO - d_min=2, leakage=2.0587236520412056
+2025-02-09 13:12:03,509 - INFO - leakages: [2.058723652041196, 2.0587236520412056]
+2025-02-09 13:12:03,509 - INFO - ************ run end ************
+2025-02-09 13:12:34,705 - INFO - ************ run start ************
+2025-02-09 13:12:35,274 - INFO - Dataset: COMPAS
+2025-02-09 13:12:35,947 - INFO - R=100 d=20 M=4 q=200003 d_min_range=3 scheme=mask len_X_accepted=1954 len_X_rejected=1904
+2025-02-09 13:52:54,589 - INFO - ************ run start ************
+2025-02-09 13:52:55,213 - INFO - Dataset: COMPAS
+2025-02-09 13:52:55,891 - INFO - R=100 d=20 M=4 q=200003 d_min_range=3 scheme=mask len_X_accepted=1954 len_X_rejected=1904
+2025-02-09 13:52:55,891 - INFO - d_min=1 started
+2025-02-09 13:59:48,331 - INFO - ************ run start ************
+2025-02-09 13:59:49,294 - INFO - Dataset: COMPAS
+2025-02-09 13:59:49,957 - INFO - R=100 d=20 M=4 q=200003 d_min_range=3 scheme=mask len_X_accepted=1954 len_X_rejected=1904
+2025-02-09 13:59:49,958 - INFO - d_min=1 started
