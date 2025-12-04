@@ -1,0 +1,92 @@
+2025-02-10 18:14:26,392 - INFO - ************ run start ************
+2025-02-10 18:14:26,917 - INFO - Dataset: COMPAS
+2025-02-10 18:14:27,443 - INFO - R=2 d=13 M=3 q=53 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:14:29,996 - INFO - d_min=1, leakage=0.9033962428903055
+2025-02-10 18:14:46,671 - INFO - d_min=2, leakage=0.9033962428903078
+2025-02-10 18:15:41,742 - INFO - d_min=3, leakage=0.9033962428903093
+2025-02-10 18:15:41,742 - INFO - leakages: [0.9033962428903055, 0.9033962428903078, 0.9033962428903093]
+2025-02-10 18:15:41,742 - INFO - ************ run end ************
+2025-02-10 18:30:15,853 - INFO - ************ run start ************
+2025-02-10 18:30:18,183 - INFO - Dataset: COMPAS
+2025-02-10 18:30:18,693 - INFO - R=3 d=13 M=3 q=127 d_min_range=2 scheme=vanilla len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:30:41,572 - INFO - ************ run start ************
+2025-02-10 18:30:41,975 - INFO - Dataset: COMPAS
+2025-02-10 18:30:42,490 - INFO - R=3 d=13 M=3 q=127 d_min_range=2 scheme=vanilla len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:30:42,491 - INFO - d_min=1 started
+2025-02-10 18:30:45,065 - INFO - d_min=1, leakage=0.7404228478101346
+2025-02-10 18:30:45,065 - INFO - leakages: [0.7404228478101346]
+2025-02-10 18:30:45,066 - INFO - ************ run end ************
+2025-02-10 18:30:55,197 - INFO - ************ run start ************
+2025-02-10 18:30:55,649 - INFO - Dataset: COMPAS
+2025-02-10 18:30:56,169 - INFO - R=3 d=13 M=3 q=127 d_min_range=2 scheme=vanilla len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:30:56,169 - INFO - d_min=1 started
+2025-02-10 18:30:58,715 - INFO - d_min=1, leakage=0.7404228478101346
+2025-02-10 18:30:58,715 - INFO - leakages: [0.7404228478101346]
+2025-02-10 18:30:58,715 - INFO - ************ run end ************
+2025-02-10 18:31:11,231 - INFO - ************ run start ************
+2025-02-10 18:31:11,696 - INFO - Dataset: COMPAS
+2025-02-10 18:31:12,219 - INFO - R=3 d=13 M=3 q=127 d_min_range=2 scheme=diff len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:31:12,219 - INFO - d_min=1 started
+2025-02-10 18:31:14,992 - INFO - d_min=1, leakage=0.6238314317927499
+2025-02-10 18:31:14,992 - INFO - leakages: [0.6238314317927499]
+2025-02-10 18:31:14,992 - INFO - ************ run end ************
+2025-02-10 18:31:23,412 - INFO - ************ run start ************
+2025-02-10 18:31:23,907 - INFO - Dataset: COMPAS
+2025-02-10 18:31:24,403 - INFO - R=3 d=13 M=3 q=127 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:31:24,403 - INFO - d_min=1 started
+2025-02-10 18:31:26,967 - INFO - d_min=1, leakage=0.7404228478101346
+2025-02-10 18:31:26,967 - INFO - d_min=2 started
+2025-02-10 18:31:43,985 - INFO - d_min=2, leakage=0.7404228478101367
+2025-02-10 18:31:43,985 - INFO - d_min=3 started
+2025-02-10 18:32:39,805 - INFO - d_min=3, leakage=0.7404228478101377
+2025-02-10 18:32:39,805 - INFO - leakages: [0.7404228478101346, 0.7404228478101367, 0.7404228478101377]
+2025-02-10 18:32:39,805 - INFO - ************ run end ************
+2025-02-10 18:46:03,031 - INFO - ************ run start ************
+2025-02-10 18:46:03,712 - INFO - Dataset: COMPAS
+2025-02-10 18:46:04,228 - INFO - R=3 d=13 M=3 q=127 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:46:04,228 - INFO - d_min=1 started
+2025-02-10 18:46:06,775 - INFO - d_min=1, leakage=0.7404228478101346
+2025-02-10 18:46:06,775 - INFO - d_min=2 started
+2025-02-10 18:46:23,710 - INFO - d_min=2, leakage=0.7404228478101367
+2025-02-10 18:46:23,710 - INFO - d_min=3 started
+2025-02-10 18:47:22,660 - INFO - ************ run start ************
+2025-02-10 18:47:23,070 - INFO - Dataset: COMPAS
+2025-02-10 18:47:23,574 - INFO - R=5 d=13 M=3 q=331 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:47:23,574 - INFO - d_min=1 started
+2025-02-10 18:47:26,154 - INFO - d_min=1, leakage=0.6181788384570241
+2025-02-10 18:47:26,154 - INFO - d_min=2 started
+2025-02-10 18:47:42,889 - INFO - d_min=2, leakage=0.6181788384570257
+2025-02-10 18:47:42,889 - INFO - d_min=3 started
+2025-02-10 18:48:53,828 - INFO - ************ run start ************
+2025-02-10 18:48:54,477 - INFO - Dataset: COMPAS
+2025-02-10 18:48:54,980 - INFO - R=5 d=13 M=3 q=331 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:48:54,980 - INFO - d_min=1 started
+2025-02-10 18:48:57,479 - INFO - d_min=1, leakage=0.6181788384570241
+2025-02-10 18:48:57,479 - INFO - d_min=2 started
+2025-02-10 18:49:11,308 - INFO - ************ run start ************
+2025-02-10 18:49:11,709 - INFO - Dataset: COMPAS
+2025-02-10 18:49:12,249 - INFO - R=5 d=13 M=3 q=331 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:49:12,249 - INFO - d_min=1 started
+2025-02-10 18:49:35,322 - INFO - ************ run start ************
+2025-02-10 18:49:35,806 - INFO - Dataset: COMPAS
+2025-02-10 18:49:36,317 - INFO - R=5 d=13 M=3 q=331 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:49:36,317 - INFO - d_min=1 started
+2025-02-10 18:49:42,846 - INFO - ************ run start ************
+2025-02-10 18:49:43,216 - INFO - Dataset: COMPAS
+2025-02-10 18:49:43,727 - INFO - R=5 d=13 M=3 q=331 d_min_range=4 scheme=mask len_X_accepted=26 len_X_rejected=36
+2025-02-10 18:49:43,727 - INFO - d_min=1 started
+2025-02-10 18:52:29,347 - INFO - ************ run start ************
+2025-02-10 18:52:29,767 - INFO - Dataset: COMPAS
+2025-02-10 18:52:30,284 - INFO - R=5 d=20 M=3 q=503 d_min_range=4 scheme=mask len_X_accepted=288 len_X_rejected=218
+2025-02-10 18:52:30,284 - INFO - d_min=1 started
+2025-02-10 18:52:42,321 - INFO - ************ run start ************
+2025-02-10 18:52:42,722 - INFO - Dataset: COMPAS
+2025-02-10 18:52:43,231 - INFO - R=3 d=20 M=3 q=181 d_min_range=4 scheme=mask len_X_accepted=129 len_X_rejected=107
+2025-02-10 18:52:43,231 - INFO - d_min=1 started
+2025-02-10 19:09:46,239 - INFO - d_min=1, leakage=1.682711305839664
+2025-02-10 19:09:46,239 - INFO - d_min=2 started
+2025-02-10 21:02:19,657 - INFO - d_min=2, leakage=1.3930036703826387
+2025-02-10 21:02:19,657 - INFO - d_min=3 started
+2025-02-11 03:12:23,573 - INFO - d_min=3, leakage=1.2472250342038982
+2025-02-11 03:12:23,679 - INFO - leakages: [1.682711305839664, 1.3930036703826387, 1.2472250342038982]
+2025-02-11 03:12:23,679 - INFO - ************ run end ************

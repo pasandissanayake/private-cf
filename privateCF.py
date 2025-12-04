@@ -17,6 +17,8 @@ import itertools
 import scipy as sp
 from scipy.special import factorial, loggamma
 
+from distutils.util import strtobool
+
 ## Utilities
 
 class Logger:
@@ -420,7 +422,7 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
 
     c_entropies, mis = [], []
     for d_min in range(1,d_min_range):
-        print(f'd_min={d_min}')
+        logger.log_info(f'd_min={d_min} started')
         counts = []
         for x_id in range(len(X_rejected)):
             x = X_rejected[x_id, :]
@@ -460,7 +462,7 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
 
 
 
-def main(R, M, scheme, d_min_range, logger):
+def main(R, M, scheme, d_min_range, cat_only:bool, logger:Logger):
     logger.log_info('************ run start ************')
 
     dataset_name = 'COMPAS'
@@ -472,13 +474,10 @@ def main(R, M, scheme, d_min_range, logger):
     df = pd.DataFrame(dataset['train'])
     # split target and features
     X = df.drop('is_recid', axis=1).to_numpy()
+    if cat_only:
+        X = X[:,7:]
     X = normalize_array(X)[0]
     y = df['is_recid'].to_numpy()
-
-    # R = 2
-    # M = 2
-    # scheme = 'mask'
-    # d_min_range = 3
 
     leakages = compute_leakage(X, y, R, M, scheme, d_min_range, logger)
     logger.log_info(f'leakages: {leakages}')
@@ -493,10 +492,12 @@ if __name__ == "__main__":
     parser.add_argument('M', type=int,  help='the database size')
     parser.add_argument('scheme', type=str,  help='vanilla for vanilla, diff for difference, mask for masking')
     parser.add_argument('d_min_range', type=int,  help='for masking scheme, d_min will be from the range [1:d_min_range-1]')
+    parser.add_argument('cat_only', type=lambda x: bool(strtobool(x)), help='if true, use only the one-hot encoded categorical features')
     parser.add_argument('log_file', type=str, help='file to log')
-
+    
     args = parser.parse_args()
+    print(args.cat_only, type(args.cat_only))
     logger = Logger(args.log_file)
-    main(args.R, args.M, args.scheme, args.d_min_range, logger)
+    main(args.R, args.M, args.scheme, args.d_min_range, args.cat_only, logger)
 
 

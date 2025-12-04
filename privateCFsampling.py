@@ -17,7 +17,7 @@ import itertools
 import scipy as sp
 from scipy.special import factorial, loggamma
 
-import multiprocessing as mp
+import random
 
 ## Utilities
 
@@ -391,43 +391,21 @@ class QuantizationScheme:
 
 
 ## Compute leakage
-def process_permutations_gpu(permutations_list, operation, args):
-    """
-    Computes a for loop over permutations on the GPU.
 
-    Args:
-        data: A list or array-like object.
-        operation: A function to apply to each permutation.
+def random_permutation_samples(lst, n, M, logger:Logger):
+    samples = []
+    iter = 0
+    while len(samples) < n and iter < 10**5:
+        perm = tuple(random.sample(lst, M))
+        samples.append(perm)
+        iter += 1
+    if len(samples) < n:
+        return None
+    else:
+        # logger.log_info(f'{n} db samples generated')
+        return list(samples)
 
-    Returns:
-        A CuPy array containing the results of the operation on each permutation.
-    """
-    permutations_list = list(permutations_list)
-    permutations_gpu = cp.array(permutations_list)
-    
-    results_gpu = cp.array([operation(perm, *args) for perm in permutations_gpu])
-
-    return results_gpu
-
-def get_counts_x(db_combination, q, M, d_min, scheme, i):
-    # print(f'job {i} started')
-    counts_x = {}
-    db_combination = np.array(db_combination)
-    for mu_combination in itertools.product(range(d_min), repeat=M):
-        mu_combination = np.array(mu_combination)
-        noisy_combination = tuple((db_combination + mu_combination) % q)
-
-        if scheme == 'diff':
-            noisy_combination = tuple([noisy_combination[i+1]-noisy_combination[i] for i in range(len(noisy_combination)-1)])
-        
-        if noisy_combination in counts_x.keys():
-            counts_x[noisy_combination] += 1
-        else:
-            counts_x[noisy_combination] = 1
-    # print(f'job {i} finished')
-    return list(counts_x.values())
-
-def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
+def compute_leakage(X, y, R, M, scheme, d_min_range, n_db_samples, logger:Logger):
     # scheme: 'vanilla' for vanilla, 'diff' for difference, 'mask' for masking
     d = X.shape[1]
     
@@ -439,7 +417,6 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
     q = next_prime(R**2 * d)
 
     if d_min_range - 1 > q:
-        print(f'WARNING: d_min might exceed q. q={q}, d_min_range={d_min_range}')
         logger.log_warning(f'WARNING: d_min might exceed q. q={q}, d_min_range={d_min_range}')
 
     quantize = QuantizationScheme(num_levels=R+1, db=X).quantize
@@ -453,25 +430,40 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
     X_rejected = X_quantized[y_quantized==0]
 
     # print(f'R={R} d={d} M={M} q={q} scheme={scheme} len_X_accepted={len(X_accepted)} len_X_rejected={len(X_rejected)}')
-    logger.log_info(f'R={R} d={d} M={M} q={q} d_min_range={d_min_range} scheme={scheme} len_X_accepted={len(X_accepted)} len_X_rejected={len(X_rejected)}')
+    logger.log_info(f'R={R} d={d} M={M} q={q} d_min_range={d_min_range} scheme={scheme} n_db_samples={n_db_samples} len_X_accepted={len(X_accepted)} len_X_rejected={len(X_rejected)}')
 
     c_entropies, mis = [], []
     for d_min in range(1,d_min_range):
         logger.log_info(f'd_min={d_min} started')
-        manager = mp.Manager()
-        counts = manager.list()
+        counts = []
         for x_id in range(len(X_rejected)):
             x = X_rejected[x_id, :]
             cfs = X_accepted
             
             norms = (np.sum((cfs-x)**2, axis=1)) % q
+            counts_x = {}
+            # for db_combination in itertools.permutations(norms, M):
+            db_combinations = random_permutation_samples(list(norms), n_db_samples, M, logger)
+            if db_combinations is None:
+                logger.log_error('error in db combination sampling')
+                return None
+            for db_combination in db_combinations:
+                db_combination = np.array(db_combination)
+                for mu_combination in itertools.product(range(d_min), repeat=M):
+                    mu_combination = np.array(mu_combination)
+                    noisy_combination = tuple((db_combination + mu_combination) % q)
 
-            counts_x = process_permutations_gpu(itertools.permutations(norms, M), get_counts_x, (q, M, d_min))
-
-            
+                    if scheme == 'diff':
+                        noisy_combination = tuple([noisy_combination[i+1]-noisy_combination[i] for i in range(len(noisy_combination)-1)])
+                    
+                    if noisy_combination in counts_x.keys():
+                        counts_x[noisy_combination] += 1
+                    else:
+                        counts_x[noisy_combination] = 1
+            counts.extend(list(counts_x.values()))
 
         p_x = 1 / len(X_rejected)
-        p_ytuple = 1 / nPr_log(len(X_accepted), M)
+        p_ytuple = 1 / n_db_samples
         p_mutuple = 1 / d_min**M
 
         c_entropy = -p_x * p_ytuple * p_mutuple * np.sum([count * np.log(p_ytuple * p_mutuple * count) for count in counts])
@@ -487,8 +479,7 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
 
 
 
-def main(R, M, scheme, d_min_range):
-    logger = Logger('./log_parallel.txt')
+def main(R, M, scheme, d_min_range, n_db_samples, logger):
     logger.log_info('************ run start ************')
 
     dataset_name = 'COMPAS'
@@ -508,7 +499,7 @@ def main(R, M, scheme, d_min_range):
     # scheme = 'mask'
     # d_min_range = 3
 
-    leakages = compute_leakage(X, y, R, M, scheme, d_min_range, logger)
+    leakages = compute_leakage(X, y, R, M, scheme, d_min_range, n_db_samples, logger)
     logger.log_info(f'leakages: {leakages}')
 
     logger.log_info('************ run end ************')
@@ -516,13 +507,16 @@ def main(R, M, scheme, d_min_range):
 
 # Example usage
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Optional app description')
-    parser.add_argument('R', type=int,  help='A required integer positional argument')
-    parser.add_argument('M', type=int,  help='A required integer positional argument')
-    parser.add_argument('scheme', type=str,  help='A required integer positional argument')
-    parser.add_argument('d_min_range', type=int,  help='A required integer positional argument')
+    parser = argparse.ArgumentParser(description='private counterfactual retrieval - leakage computation')
+    parser.add_argument('R', type=int,  help='max element of alphabet i.e., alphabet=[0:R]')
+    parser.add_argument('M', type=int,  help='the database size')
+    parser.add_argument('scheme', type=str,  help='vanilla for vanilla, diff for difference, mask for masking')
+    parser.add_argument('d_min_range', type=int,  help='for masking scheme, d_min will be from the range [1:d_min_range-1]')
+    parser.add_argument('n_db_samples', type=int, help='number of database samples, sampled uniformly from all the possible databases')
+    parser.add_argument('log_file', type=str, help='file to log')
 
     args = parser.parse_args()
-    main(args.R, args.M, args.scheme, args.d_min_range)
+    logger = Logger(args.log_file)
+    main(args.R, args.M, args.scheme, args.d_min_range, args.n_db_samples, logger)
 
 

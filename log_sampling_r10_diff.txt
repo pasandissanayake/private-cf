@@ -1,0 +1,26 @@
+2025-02-10 15:12:16,808 - INFO - ************ run start ************
+2025-02-10 15:12:18,288 - INFO - Dataset: COMPAS
+2025-02-10 15:12:18,822 - INFO - R=10 d=20 M=5 q=2003 d_min_range=2 scheme=diff n_db_samples=10000 len_X_accepted=717 len_X_rejected=560
+2025-02-10 15:12:18,823 - INFO - d_min=1 started
+2025-02-10 15:13:03,805 - INFO - d_min=1, leakage=1.2115027628325705
+2025-02-10 15:13:03,813 - INFO - leakages: [1.2115027628325705]
+2025-02-10 15:13:03,813 - INFO - ************ run end ************
+2025-02-10 15:16:09,588 - INFO - ************ run start ************
+2025-02-10 15:16:10,130 - INFO - Dataset: COMPAS
+2025-02-10 15:16:10,690 - INFO - R=10 d=20 M=5 q=2003 d_min_range=2 scheme=diff n_db_samples=100000 len_X_accepted=717 len_X_rejected=560
+2025-02-10 15:16:10,690 - INFO - d_min=1 started
+2025-02-10 15:23:45,676 - INFO - d_min=1, leakage=1.5143593633926953
+2025-02-10 15:23:45,736 - INFO - leakages: [1.5143593633926953]
+2025-02-10 15:23:45,736 - INFO - ************ run end ************
+2025-02-10 15:29:27,124 - INFO - ************ run start ************
+2025-02-10 15:29:28,677 - INFO - Dataset: COMPAS
+2025-02-10 15:29:29,217 - INFO - R=10 d=20 M=5 q=2003 d_min_range=2 scheme=vanilla n_db_samples=100000 len_X_accepted=717 len_X_rejected=560
+2025-02-10 15:29:29,217 - INFO - d_min=1 started
+2025-02-10 15:29:50,157 - INFO - ************ run start ************
+2025-02-10 15:29:50,585 - INFO - Dataset: COMPAS
+2025-02-10 15:29:51,123 - INFO - R=10 d=20 M=5 q=2003 d_min_range=4 scheme=mask n_db_samples=100000 len_X_accepted=717 len_X_rejected=560
+2025-02-10 15:29:51,123 - INFO - d_min=1 started
+2025-02-10 15:36:43,010 - INFO - d_min=1, leakage=1.5143743913791696
+2025-02-10 15:36:43,010 - INFO - d_min=2 started
+2025-02-10 17:58:40,459 - INFO - d_min=2, leakage=1.5142780364920367
+2025-02-10 17:58:40,459 - INFO - d_min=3 started
