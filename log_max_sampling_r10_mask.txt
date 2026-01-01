@@ -1,0 +1,9 @@
+2025-12-19 12:08:38,092 - INFO - ************ run start ************
+2025-12-19 12:08:38,692 - INFO - Dataset: COMPAS
+2025-12-19 12:08:39,226 - INFO - R=10 d=20 M=5 q=2003 d_min_range=3 scheme=mask n_db_samples=100000 len_X_accepted=717 len_X_rejected=560
+2025-12-19 12:08:39,227 - INFO - d_min=1 started
+2025-12-19 12:14:53,445 - INFO - max leakage=1.5143801223645774 to the base 2003
+2025-12-19 12:14:53,445 - INFO - d_min=2 started
+2025-12-19 14:12:19,339 - INFO - max leakage=1.514379135830482 to the base 2003
+2025-12-19 14:12:19,558 - INFO - leakages: [np.float64(1.5143801223645774), np.float64(1.514379135830482)]
+2025-12-19 14:12:19,558 - INFO - ************ run end ************

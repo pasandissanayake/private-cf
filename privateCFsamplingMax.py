@@ -17,7 +17,7 @@ import itertools
 import scipy as sp
 from scipy.special import factorial, loggamma
 
-from distutils.util import strtobool
+import random
 
 ## Utilities
 
@@ -392,7 +392,20 @@ class QuantizationScheme:
 
 ## Compute leakage
 
-def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
+def random_permutation_samples(lst, n, M, logger:Logger):
+    samples = []
+    iter = 0
+    while len(samples) < n and iter < 10**5:
+        perm = tuple(random.sample(lst, M))
+        samples.append(perm)
+        iter += 1
+    if len(samples) < n:
+        return None
+    else:
+        # logger.log_info(f'{n} db samples generated')
+        return list(samples)
+
+def compute_leakage(X, y, R, M, scheme, d_min_range, n_db_samples, logger:Logger):
     # scheme: 'vanilla' for vanilla, 'diff' for difference, 'mask' for masking
     d = X.shape[1]
     
@@ -404,7 +417,6 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
     q = next_prime(R**2 * d)
 
     if d_min_range - 1 > q:
-        print(f'WARNING: d_min might exceed q. q={q}, d_min_range={d_min_range}')
         logger.log_warning(f'WARNING: d_min might exceed q. q={q}, d_min_range={d_min_range}')
 
     quantize = QuantizationScheme(num_levels=R+1, db=X).quantize
@@ -418,7 +430,7 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
     X_rejected = X_quantized[y_quantized==0]
 
     # print(f'R={R} d={d} M={M} q={q} scheme={scheme} len_X_accepted={len(X_accepted)} len_X_rejected={len(X_rejected)}')
-    logger.log_info(f'R={R} d={d} M={M} q={q} d_min_range={d_min_range} scheme={scheme} len_X_accepted={len(X_accepted)} len_X_rejected={len(X_rejected)}')
+    logger.log_info(f'R={R} d={d} M={M} q={q} d_min_range={d_min_range} scheme={scheme} n_db_samples={n_db_samples} len_X_accepted={len(X_accepted)} len_X_rejected={len(X_rejected)}')
 
     max_leakages = []
     for d_min in range(1,d_min_range):
@@ -430,7 +442,12 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
             
             norms = (np.sum((cfs-x)**2, axis=1)) % q
             counts_x = {}
-            for db_combination in itertools.permutations(norms, M):
+            # for db_combination in itertools.permutations(norms, M):
+            db_combinations = random_permutation_samples(list(norms), n_db_samples, M, logger)
+            if db_combinations is None:
+                logger.log_error('error in db combination sampling')
+                return None
+            for db_combination in db_combinations:
                 db_combination = np.array(db_combination)
                 for mu_combination in itertools.product(range(d_min), repeat=M):
                     mu_combination = np.array(mu_combination)
@@ -455,7 +472,7 @@ def compute_leakage(X, y, R, M, scheme, d_min_range, logger:Logger):
 
 
 
-def main(R, M, scheme, d_min_range, cat_only:bool, logger:Logger):
+def main(R, M, scheme, d_min_range, n_db_samples, logger):
     logger.log_info('************ run start ************')
 
     dataset_name = 'COMPAS'
@@ -467,12 +484,15 @@ def main(R, M, scheme, d_min_range, cat_only:bool, logger:Logger):
     df = pd.DataFrame(dataset['train'])
     # split target and features
     X = df.drop('is_recid', axis=1).to_numpy()
-    if cat_only:
-        X = X[:,7:]
     X = normalize_array(X)[0]
     y = df['is_recid'].to_numpy()
 
-    leakages = compute_leakage(X, y, R, M, scheme, d_min_range, logger)
+    # R = 2
+    # M = 2
+    # scheme = 'mask'
+    # d_min_range = 3
+
+    leakages = compute_leakage(X, y, R, M, scheme, d_min_range, n_db_samples, logger)
     logger.log_info(f'leakages: {leakages}')
 
     logger.log_info('************ run end ************')
@@ -484,13 +504,12 @@ if __name__ == "__main__":
     parser.add_argument('--R', type=int,  help='max element of alphabet i.e., alphabet=[0:R]')
     parser.add_argument('--M', type=int,  help='the database size')
     parser.add_argument('--scheme', type=str,  help='vanilla for vanilla, diff for difference, mask for masking')
-    parser.add_argument('--d_min_range', type=int,  help='for masking scheme, d_min will be from the range [1:d_min_range-1]')
-    parser.add_argument('--cat_only', type=lambda x: bool(strtobool(x)), help='if true, use only the one-hot encoded categorical features')
-    parser.add_argument('--log_file', type=str, help='file to log')
-    
+    parser.add_argument('--dminrange', type=int,  help='for masking scheme, d_min will be from the range [1:d_min_range-1]')
+    parser.add_argument('--ndbsamples', type=int, help='number of database samples, sampled uniformly from all the possible databases')
+    parser.add_argument('--logfile', type=str, help='file to log')
+
     args = parser.parse_args()
-    print(args.cat_only, type(args.cat_only))
-    logger = Logger(args.log_file)
-    main(args.R, args.M, args.scheme, args.d_min_range, args.cat_only, logger)
+    logger = Logger(args.logfile)
+    main(args.R, args.M, args.scheme, args.dminrange, args.ndbsamples, logger)
 
 

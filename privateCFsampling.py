@@ -508,15 +508,15 @@ def main(R, M, scheme, d_min_range, n_db_samples, logger):
 # Example usage
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='private counterfactual retrieval - leakage computation')
-    parser.add_argument('R', type=int,  help='max element of alphabet i.e., alphabet=[0:R]')
-    parser.add_argument('M', type=int,  help='the database size')
-    parser.add_argument('scheme', type=str,  help='vanilla for vanilla, diff for difference, mask for masking')
-    parser.add_argument('d_min_range', type=int,  help='for masking scheme, d_min will be from the range [1:d_min_range-1]')
-    parser.add_argument('n_db_samples', type=int, help='number of database samples, sampled uniformly from all the possible databases')
-    parser.add_argument('log_file', type=str, help='file to log')
+    parser.add_argument('--R', type=int,  help='max element of alphabet i.e., alphabet=[0:R]')
+    parser.add_argument('--M', type=int,  help='the database size')
+    parser.add_argument('--scheme', type=str,  help='vanilla for vanilla, diff for difference, mask for masking')
+    parser.add_argument('--dminrange', type=int,  help='for masking scheme, d_min will be from the range [1:d_min_range-1]')
+    parser.add_argument('--ndbsamples', type=int, help='number of database samples, sampled uniformly from all the possible databases')
+    parser.add_argument('--logfile', type=str, help='file to log')
 
     args = parser.parse_args()
-    logger = Logger(args.log_file)
-    main(args.R, args.M, args.scheme, args.d_min_range, args.n_db_samples, logger)
+    logger = Logger(args.logfile)
+    main(args.R, args.M, args.scheme, args.dminrange, args.ndbsamples, logger)
 
 
